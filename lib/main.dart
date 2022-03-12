@@ -1,24 +1,19 @@
+import 'package:feed_me/provider/FeedProvider.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+import 'pages/main_page.dart';
 
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class FeedMeApp extends StatelessWidget {
+  const FeedMeApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return FeedProvider(
+        child: const MaterialApp(
       title: 'FeedMe',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Feed Me"),
-        ),
-        body: const Center(
-          child: Text("hi feeme?"),
-        ),
-      ),
-    );
+      home: MainPage(),
+    ));
   }
-
 }
+
+void main() => runApp(const FeedMeApp());
