@@ -10,9 +10,7 @@ class FeedItemsService implements FeedItemsRepository {
 
   /// singleton
   static final FeedItemsService _instance = FeedItemsService._internal();
-
   factory FeedItemsService() => _instance;
-
   FeedItemsService._internal() {
     _box = Hive.box<FeedItem>(FeedItem.hiveKey);
   }
@@ -20,7 +18,6 @@ class FeedItemsService implements FeedItemsRepository {
   @override
   void updateFeedItems(FollowFeed followFeed, List<FeedItem> feedItems) {
     var existKeys = followFeed.feedItems?.map((e) => e.key);
-
     if (existKeys != null) {
       _box.deleteAll(existKeys);
     }
@@ -30,10 +27,15 @@ class FeedItemsService implements FeedItemsRepository {
     followFeed.save();
   }
 
+  @override
+  Future<List<FeedItem>> getFeedItemsFromRemote(String uri) async {
+    var xml = await FetchXml.fetchRssXml(uri);
+    return FeedItemsConverter.xmlToFeedItems(xml, uri);
+  }
+
+  @override
   Future<void> updateFeedItemsFromRemote(FollowFeed followFeed) async {
-    var xml = await FetchXml.fetchRssXml(followFeed.uri);
-    List<FeedItem> feedItems =
-        FeedItemsConverter.xmlToFeedItems(xml, followFeed.uri);
+    List<FeedItem> feedItems = await getFeedItemsFromRemote(followFeed.uri);
     return updateFeedItems(followFeed, feedItems);
   }
 

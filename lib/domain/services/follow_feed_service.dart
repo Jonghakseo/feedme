@@ -9,12 +9,9 @@ class FollowFeedService implements FollowFeedRepository {
 
   /// singleton
   static final FollowFeedService _instance = FollowFeedService._internal();
-
   factory FollowFeedService() => _instance;
-
   FollowFeedService._internal() {
     _box = Hive.box<FollowFeed>(FollowFeed.hiveKey);
-    // _box.clear();
   }
 
   @override
@@ -22,9 +19,15 @@ class FollowFeedService implements FollowFeedRepository {
     _box.add(followFeed);
   }
 
-  Future<void> addFollowFeedFromRemote(String uri) async {
+  @override
+  Future<FollowFeed> getFollowFeedFromRemote(String uri) async {
     String xml = await FetchXml.fetchRssXml(uri);
-    FollowFeed followFeed = FollowFeedConverter.xmlToFollowFeed(xml, uri);
+    return FollowFeedConverter.xmlToFollowFeed(xml, uri);
+  }
+
+  @override
+  Future<void> addFollowFeedFromRemote(String uri) async {
+    FollowFeed followFeed = await getFollowFeedFromRemote(uri);
     addFollowFeed(followFeed);
   }
 

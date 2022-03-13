@@ -5,4 +5,6 @@ abstract class FollowFeedRepository {
   void addFollowFeed(FollowFeed followFeed);
   List<FollowFeed> getFollowFeedList();
   void deleteFollowFeed(FollowFeed followFeed);
+  Future<FollowFeed> getFollowFeedFromRemote(String uri);
+  Future<void> addFollowFeedFromRemote(String uri);
 }
