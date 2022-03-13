@@ -1,4 +1,5 @@
-import 'package:feed_me/provider/FeedProvider.dart';
+import 'package:feed_me/provider/feed_provider.dart';
+import 'package:feed_me/widgets/feed/feed_list.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -23,22 +24,8 @@ class _MainPageState extends State<MainPage> {
                   .feedItems
                   ?.length,
               itemBuilder: (context, itemIndex) {
-                return Container(
-                  width: double.maxFinite,
-                  height: double.maxFinite,
-                  child: Center(
-                      child: Text(FeedProvider.followFeedList(context)
-                          .elementAt(index)
-                          .feedItems!
-                          .elementAt(itemIndex)
-                          .title
-                          .toString())),
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          opacity: 1,
-                          fit: BoxFit.cover,
-                          image:
-                              NetworkImage("https://picsum.photos/800/1600"))),
+                return FeedList(
+                  followFeedIndex: index,
                 );
               },
             );

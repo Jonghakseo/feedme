@@ -2,7 +2,7 @@ import 'package:feed_me/domain/models/feed_item.dart';
 import 'package:feed_me/domain/models/follow_feed.dart';
 import 'package:feed_me/domain/services/feed_Items_service.dart';
 import 'package:feed_me/domain/services/follow_feed_service.dart';
-import 'package:feed_me/provider/FeedProvider.dart';
+import 'package:feed_me/provider/feed_provider.dart';
 import 'package:feed_me/screens/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -13,8 +13,8 @@ class FeedMeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FeedProvider(
-        followFeedService: FollowFeedService(),
-        feedItemsService: FeedItemsService(),
+        followFeed: FollowFeedService(),
+        feedItems: FeedItemsService(),
         child: const MaterialApp(
           title: 'FeedMe',
           home: MainPage(),
